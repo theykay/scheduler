@@ -15,11 +15,13 @@ $(document).ready(function () {
 
         optionStart.text(formatTime(i));
         optionStart.attr('id', i + 'S');
+        optionStart.attr('data-hour', i);
         // optionStart.attr('class', 'starter');
         selectStart.append(optionStart);
 
         optionEnd.text(formatTime(i));
         optionEnd.attr('id', i + 'E');
+        optionEnd.attr('data-hour', i);
         // optionEnd.attr('class', 'ender');
         selectEnd.append(optionEnd);
     }
@@ -28,22 +30,28 @@ $(document).ready(function () {
     let endTime;
 
     // https://www.tutorialrepublic.com/faq/how-to-get-the-value-of-selected-option-in-a-select-box-using-jquery.php
-    $('select.starter').change(function (event) {
-        startTime = $(event.target).children('option:selected').index();
+    $('#selectStart').change(function (event) {
+        // reset options in other selector
+        $("#selectEnd option").removeAttr("disabled");
+        startTime = $(event.target).children('option:selected');
         // disable end options before start time
-        for (let j = 0; j < startTime + 1; j++) {
+        for (let j = 0; j < startTime.index() + 1; j++) {
             $('#' + j + 'E').attr('disabled', 'disabled');
         }
     });
 
-    $('select.ender').change(function (event) {
-        endTime = $(event.target).children('option:selected').index();
+    $('#selectEnd').change(function (event) {
+        // reset options in other selector
+        $('#selectStart option').removeAttr('disabled');
+        endTime = $(event.target).children('option:selected');
         // disable start options after end time
-        for (let k = endTime; k < 24; k++) {
+        for (let k = endTime.index(); k < 24; k++) {
             $('#' + k + 'S').attr('disabled', 'disabled');
         }
     });
     // use startTime and endTime to create hourly schedule (inside if statement that only runs if endtime is not undefined)
+
+    
 
     function formatTime(number) {
         let formatted = '';
@@ -58,5 +66,4 @@ $(document).ready(function () {
         }
         return formatted;
     }
-
 });
