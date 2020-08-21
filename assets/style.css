@@ -15,12 +15,25 @@ textarea{
 
 label {
   display: flex;
-  justify-content: left;
+  align-items: center;
+  margin: 0 20px 0 0;
+}
+
+.form-group {
+  display: flex;
+  margin: 0;
+}
+
+#text {
+  display: flex;
+  align-items: center;
 }
 
 #timeSelect {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 30px;
 }
 
 .jumbotron {

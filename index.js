@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    // when saving things to schedule, save attribute data-day and then delete any that don't match present day
+
 
     // display current day in header jumbotron
     $('#today').text(moment().format('dddd'));
@@ -28,6 +30,7 @@ $(document).ready(function () {
 
     let startTime;
     let endTime;
+    let currentDay;
 
     // https://www.tutorialrepublic.com/faq/how-to-get-the-value-of-selected-option-in-a-select-box-using-jquery.php
     $('#selectStart').change(function (event) {
@@ -50,8 +53,6 @@ $(document).ready(function () {
         }
     });
     // use startTime and endTime to create hourly schedule (inside if statement that only runs if endtime is not undefined)
-
-    
 
     function formatTime(number) {
         let formatted = '';
