@@ -13,6 +13,16 @@ textarea{
   padding: 10px;
 }
 
+label {
+  display: flex;
+  justify-content: left;
+}
+
+#timeSelect {
+  display: flex;
+  justify-content: center;
+}
+
 .jumbotron {
   text-align: center;
   background-color: transparent;
