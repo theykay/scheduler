@@ -15,8 +15,12 @@ $(document).ready(function () {
     // end time for schedule
     let endSelect;
 
+    
     let currentDay = moment().format('DDMMYY');
-    console.log(currentDay);
+    // clear localStorage if it was from a previous day
+    if (localStorage.getItem('today') && currentDay != localStorage.getItem('today')) {
+        localStorage.clear();
+    }
 
     // populate dropdown menu
     for (let i = 0; i < 24; i++) {
@@ -46,15 +50,14 @@ $(document).ready(function () {
         // reset options in other selector
         $(".option-hours").removeAttr("disabled");
         startSelect = $(event.target).children('option:selected').attr('data-hour');
+        localStorage.setItem('today', currentDay);  
         //startSelect = parseInt(startSelect);
-        console.log(typeof (startSelect));
         selectEnd.attr('disabled', false);
         if (startSelect != 0) {
             for (let j = 0; j <= parseInt(startSelect); j++) {
                 $('#' + j + 'E').attr('disabled', 'disabled');
             }
         }
-        console.log(startSelect === 0 && endSelect);
         if (startSelect && endSelect) {
             // clear out div holding time slots
             $('#container').empty();
@@ -76,7 +79,6 @@ $(document).ready(function () {
         // reset options in other selector
         $(".option-hours").removeAttr("disabled");
         endSelect = $(event.target).children('option:selected').attr('data-hour');
-        endSelect = parseInt(endSelect);
         // disable start options after end Select
         for (let k = endSelect; k < 24; k++) {
             $('#' + k + 'S').attr('disabled', 'disabled');
@@ -85,7 +87,7 @@ $(document).ready(function () {
             // clear out div holding time slots
             $('#container').empty();
             // generate time slots
-            makeSchedule(startSelect, endSelect);
+            makeSchedule(parseInt(startSelect), parseInt(endSelect));
             // add click listener to buttons
             $(".saveBtn").on("click", function (event) {
                 const hourKey = event.target.dataset.hour;
@@ -96,7 +98,7 @@ $(document).ready(function () {
     });
 
     function makeSchedule(start, end) {
-        for (let i = start; i < end + 1; i++) {
+        for (let i = start; i < end; i++) {
             let rowDiv = $('<div>');
             rowDiv.addClass('row')
 
@@ -123,6 +125,11 @@ $(document).ready(function () {
             submit.addClass('saveBtn col-2');
             submit.attr('data-hour', i);
             submit.text('submit');
+            // disables buttons for past time slots
+            // if (i < moment().format('HH')) {
+            //     submit.attr('disabled',true);
+            //     submit.css('background-color', 'grey');
+            // }
 
             rowDiv.append(timeEl);
             rowDiv.append(textEl);
