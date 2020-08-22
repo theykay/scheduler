@@ -45,11 +45,15 @@ $(document).ready(function () {
             $('#' + j + 'E').attr('disabled', 'disabled');
         }
         if (startSelect && endSelect) {
+            // clear out div holding time slots
             $('#container').empty();
+            // generate time slots
             makeSchedule(startSelect, endSelect);
+            // add click listener to buttons
             $(".saveBtn").on("click", function(event){
-                console.log('hello ' + event.target);
-                // get hour for local storage key and text input for local storage data
+                const hourKey = event.target.dataset.hour;
+                const hourData = event.target.previousElementSibling.value;
+                localStorage.setItem(hourKey, hourData);
             });
         };
     });
