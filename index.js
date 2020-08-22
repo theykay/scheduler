@@ -40,7 +40,7 @@ $(document).ready(function () {
         $("#selectEnd option").removeAttr("disabled");
         startSelect = $(event.target).children('option:selected').attr('data-hour');
         startSelect = parseInt(startSelect);
-        // disable end options before start Select
+        // disable end options before start time
         for (let j = 0; j <= startSelect; j++) {
             $('#' + j + 'E').attr('disabled', 'disabled');
         }
@@ -49,6 +49,7 @@ $(document).ready(function () {
             makeSchedule(startSelect, endSelect);
             $(".saveBtn").on("click", function(event){
                 console.log('hello ' + event.target);
+                // get hour for local storage key and text input for local storage data
             });
         };
     });
@@ -63,14 +64,19 @@ $(document).ready(function () {
             $('#' + k + 'S').attr('disabled', 'disabled');
         }
         if (startSelect && endSelect) {
+            // clear out div holding time slots
             $('#container').empty();
+            // generate time slots
             makeSchedule(startSelect, endSelect);
+            // add click listener to buttons
             $(".saveBtn").on("click", function(event){
-                console.log('hello ' + event.target);
+                const hourKey = event.target.dataset.hour;
+                const hourData = event.target.previousElementSibling.value;
+                localStorage.setItem(hourKey, hourData);
             });
         };
     });
-
+    
     function makeSchedule(start, end) {
         for (let i = start; i < end + 1; i++) {
             let rowDiv = $('<div>');
@@ -91,11 +97,13 @@ $(document).ready(function () {
             }
             textEl.attr('data-hour', i);
             textEl.attr('rows', '3');
+            if (localStorage.getItem(i)) {
+                textEl.text(localStorage.getItem(i));
+            }
 
             let submit = $('<button>');
             submit.addClass('saveBtn col-2');
             submit.attr('data-hour', i);
-            submit.attr('id', i + 'button');
             submit.text('submit');
 
             rowDiv.append(timeEl);
