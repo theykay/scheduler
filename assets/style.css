@@ -56,13 +56,17 @@ label {
 .row {
   white-space: pre-wrap;
   height: 80px;
-  border-top: 1px solid white;;
+  border-top: 1px solid white;
+  margin-bottom: 5px;
 }
 
 .hour {
   background-color: #ffffff;
   color: #000000;
   border-top: 1px dashed #000000;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .past {
